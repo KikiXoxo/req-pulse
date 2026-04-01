@@ -1,0 +1,26 @@
+{
+  "name": "req-pulse",
+  "version": "1.0.0",
+  "description": "A simple Express middleware that logs HTTP requests with timestamps, status codes, and response times",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test/test.js"
+  },
+  "keywords": [
+    "express",
+    "middleware",
+    "logger",
+    "http",
+    "request",
+    "logging"
+  ],
+  "author": "Shekinah",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KikiXoxo/req-pulse.git"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  }
+}
