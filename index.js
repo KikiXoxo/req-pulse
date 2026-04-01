@@ -15,6 +15,24 @@ const reqPulse = () => {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
+  // Terminal color codes
+  const colors = {
+    reset: '\x1b[0m',
+    gray: '\x1b[90m',
+    green: '\x1b[32m',
+    yellow: '\x1b[33m',
+    red: '\x1b[31m',
+    cyan: '\x1b[36m',
+  };
+
+  const getStatusColor = status => {
+    if (status >= 500) return colors.red;
+    if (status >= 400) return colors.yellow;
+    if (status >= 300) return colors.cyan;
+    if (status >= 200) return colors.green;
+    return colors.reset;
+  };
+
   // Middleware function
   return (req, res, next) => {
     const startTime = Date.now();
@@ -27,8 +45,11 @@ const reqPulse = () => {
       const path = req.originalUrl || req.url;
       const status = res.statusCode;
 
+      const statusColor = getStatusColor(status);
+      const resetColor = colors.reset;
+
       console.log(
-        `[${timestamp}] ${method} ${path} ${status} - ${responseTime}ms`,
+        `${colors.gray}[${timestamp}]${resetColor} ${method} ${path} ${statusColor}${status}${resetColor} - ${responseTime}ms`,
       );
     });
 
