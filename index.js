@@ -1,5 +1,9 @@
 // Middleware factory
-const reqPulse = () => {
+const reqPulse = (options = {}) => {
+  // Options enabled by default
+  const useColors = options.colors !== false;
+  const includeTimestamp = options.timestamp !== false;
+
   // Format timestamp
   const getTimestamp = () => {
     const now = new Date();
@@ -40,7 +44,7 @@ const reqPulse = () => {
     res.on('finish', () => {
       const responseTime = Date.now() - startTime;
 
-      const timestamp = getTimestamp();
+      const timestamp = includeTimestamp ? `[${getTimestamp()}]` : '';
       const method = req.method;
       const path = req.originalUrl || req.url;
       const status = res.statusCode;
@@ -48,9 +52,11 @@ const reqPulse = () => {
       const statusColor = getStatusColor(status);
       const resetColor = colors.reset;
 
-      console.log(
-        `${colors.gray}[${timestamp}]${resetColor} ${method} ${path} ${statusColor}${status}${resetColor} - ${responseTime}ms`,
-      );
+      const logMessage = useColors
+        ? `${colors.gray}${timestamp}${resetColor} ${method} ${path} ${statusColor}${status}${resetColor} - ${responseTime}ms`
+        : `${timestamp} ${method} ${path} ${status} - ${responseTime}ms`;
+
+      console.log(logMessage);
     });
 
     next();
