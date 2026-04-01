@@ -20,6 +20,11 @@
     "type": "git",
     "url": "git+https://github.com/KikiXoxo/req-pulse.git"
   },
+  "files": [
+    "LICENSE",
+    "README.md",
+    "index.js"
+  ],
   "engines": {
     "node": ">=12.0.0"
   },
