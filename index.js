@@ -17,11 +17,20 @@ const reqPulse = () => {
 
   // Middleware function
   return (req, res, next) => {
-    const timestamp = getTimestamp();
-    const method = req.method;
-    const path = req.originalUrl || req.url;
+    const startTime = Date.now();
 
-    console.log(`[${timestamp}] ${method} ${path}`);
+    res.on('finish', () => {
+      const responseTime = Date.now() - startTime;
+
+      const timestamp = getTimestamp();
+      const method = req.method;
+      const path = req.originalUrl || req.url;
+      const status = res.statusCode;
+
+      console.log(
+        `[${timestamp}] ${method} ${path} ${status} - ${responseTime}ms`,
+      );
+    });
 
     next();
   };
